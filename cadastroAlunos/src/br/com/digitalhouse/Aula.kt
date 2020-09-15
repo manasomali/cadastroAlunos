@@ -1,5 +1,5 @@
 package br.com.digitalhouse
 
-class Aula(val materia:Materia, val horarioInicio:String, val horarioFim:String) {
+class Aula(val materia:String, val horarioInicio:String, val horarioFim:String) {
 
 }
