@@ -92,16 +92,26 @@ fun main () {
                 listaTurma.add(Turma(nometurma,listaCurso[index]))
             }
             5 -> {
-                for (aluno in listaAlunos)
+                for (aluno in listaAlunos) {
+                    println("Todos os alunos")
                     println("${aluno.nome} ${aluno.sobrenome}")
-                for (professor in listaProfessor)
+                }
+                for (professor in listaProfessor) {
+                    println("Todos os professores")
                     println("${professor.nome} ${professor.sobrenome}")
-                for (curso in listaCurso)
+                }
+                for (curso in listaCurso) {
+                    println("Todos os Cursos")
                     println("${curso.nome}")
-                for (aula in listaAula)
+                }
+                for (aula in listaAula) {
+                    println("Todas as Aulas")
                     println("Materia: ${aula.materia} Inicio: ${aula.horarioInicio} Fim: ${aula.horarioFim}")
-                for (turma in listaTurma)
-                    println("Turma: ${turma.nome} Curso: ${turma.curso}")
+                }
+                for (turma in listaTurma) {
+                    println("Todas as Turmas")
+                    println("Turma: ${turma.nome} Curso: ${turma.curso.nome}")
+                }
 
             }
             else -> println("Informe um numero de 1 a 6")
