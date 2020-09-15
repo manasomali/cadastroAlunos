@@ -1,120 +1,119 @@
 package br.com.digitalhouse
 
-import java.util.Scanner
+import java.util.*
 
-fun main () {
-    var listaAlunos = mutableListOf<Aluno>()
-    var listaProfessor = mutableListOf<Professor>()
-    var listaCurso = mutableListOf<Curso>()
-    var listaAula = mutableListOf<Aula>()
-    var listaTurma = mutableListOf<Turma>()
+fun main() {
 
-    var cont = 1
+
+    val listaAlunos = mutableListOf<Aluno>()
+    val listaProfessor = mutableListOf<Professor>()
+    val listaCurso = mutableListOf<Curso>()
+    val listaAula = mutableListOf<Aula>()
+    val listaTurma = mutableListOf<Turma>()
+
+    val cont = 1
 
     while (cont > 0) {
 
-        println("--------------MENU-------------")
-        println("1. Criar Aluno")
-        println("2. Criar Professor")
-        println("3. Criar Curso, Materia e Aulas")
-        println("4. Criar Turma")
-        println("5. Exibir Dados Gerais")
+        println("------------- MENU ------------")
+        println("1. Criar aluno")
+        println("2. Criar professor")
+        println("3. Criar curso, matéria e aulas")
+        println("4. Criar turma")
+        println("5. Exibir todos os dados")
         val reader = Scanner(System.`in`)
         print("Enter com opção: ")
-        var opcao:Int = reader.nextInt()
-
-        when (opcao) {
-            1 -> {
-                val reader1 = Scanner(System.`in`)
-                print("Informe o nome do aluno: ")
-                var nome:String = reader1.nextLine()
-                val reader2 = Scanner(System.`in`)
-                print("Informe o sobrenome: ")
-                var sobrenome:String = reader2.nextLine()
-                val reader3 = Scanner(System.`in`)
-                print("Informe o registro academico: ")
-                var ra:Int = reader3.nextInt()
-                listaAlunos.add(Aluno(nome, sobrenome, ra))
+        try {
+            when (reader.nextInt()) {
+                1 -> {
+                    print("Informe o nome do aluno: ")
+                    val nome: String = reader.next()
+                    print("Informe o sobrenome: ")
+                    val sobrenome: String = reader.next()
+                    print("Informe o registro acadêmico: ")
+                    val ra: Int = reader.nextInt()
+                    listaAlunos.add(Aluno(nome, sobrenome, ra))
+                }
+                2 -> {
+                    print("Informe o nome do professor: ")
+                    val nome: String = reader.next()
+                    print("Informe o sobrenome: ")
+                    val sobrenome: String = reader.next()
+                    print("Informe o registro de docente: ")
+                    val rd: Int = reader.nextInt()
+                    listaProfessor.add(Professor(nome, sobrenome, rd))
+                }
+                3 -> {
+                    if (listaAlunos.size == 0 || listaProfessor.size == 0) {
+                        println("\nÉ necessário criar alunos e professores primeiro.\n")
+                    } else {
+                        print("Informe o nome do curso: ")
+                        val nomeCurso: String = reader.next()
+                        print("Informe a quantidade de aulas: ")
+                        val quantAulas: Int = reader.nextInt()
+                        for (aula in 1..quantAulas) {
+                            print("Informe a matéria da aula $aula: ")
+                            val materia: String = reader.next()
+                            print("Informe o horário de início da aula $aula: ")
+                            val horainicio: String = reader.next()
+                            print("Informe o horário de fim da aula $aula: ")
+                            val horafim: String = reader.next()
+                            listaAula.add(Aula(materia, horainicio, horafim))
+                        }
+                        var i = 0
+                        while (i < listaProfessor.size) {
+                            println("$i. ${listaProfessor[i].nome} ${listaProfessor[i].sobrenome}")
+                            ++i
+                        }
+                        print("Informe o index do professor: ")
+                        val index: Int = reader.nextInt()
+                        listaCurso.add(Curso(nomeCurso, listaAlunos, listaAula, listaProfessor[index]))
+                    }
+                }
+                4 -> {
+                    if (listaCurso.size == 0) {
+                        println("\nÉ necessário criar um curso primeiro.\n")
+                    } else {
+                        print("Informe o nome da turma: ")
+                        val nome: String = reader.next()
+                        var i = 0
+                        while (i < listaCurso.size) {
+                            println("$i. ${listaCurso[i].nome}")
+                            ++i
+                        }
+                        print("Informe o index do curso: ")
+                        val index: Int = reader.nextInt()
+                        listaTurma.add(Turma(nome, listaCurso[index]))
+                    }
+                }
+                5 -> {
+                    for (aluno in listaAlunos) {
+                        println("\nTodos os alunos")
+                        println("${aluno.ra} - ${aluno.nome} ${aluno.sobrenome}")
+                    }
+                    for (professor in listaProfessor) {
+                        println("\nTodos os professores")
+                        println("${professor.rd} - ${professor.nome} ${professor.sobrenome}")
+                    }
+                    for (curso in listaCurso) {
+                        println("\nTodos os cursos")
+                        println({ curso.nome })
+                    }
+                    for (aula in listaAula) {
+                        println("\nTodas as aulas")
+                        println("Matéria: ${aula.materia}, das ${aula.horarioInicio} às ${aula.horarioFim}")
+                    }
+                    for (turma in listaTurma) {
+                        println("\nTodas as turmas")
+                        println("Turma ${turma.nome} - Curso: ${turma.curso.nome}")
+                    }
+                }
+                else -> println("Informe um número de 1 a 5")
             }
-            2 -> {
-                val reader1 = Scanner(System.`in`)
-                print("Informe o nome do professor: ")
-                var nome:String = reader1.nextLine()
-                val reader2 = Scanner(System.`in`)
-                print("Informe o sobrenome: ")
-                var sobrenome:String = reader2.nextLine()
-                val reader3 = Scanner(System.`in`)
-                print("Informe o registro docente: ")
-                var rd:Int = reader3.nextInt()
-                listaProfessor.add(Professor(nome, sobrenome, rd))
-            }
-            3 -> {
-                val reader1 = Scanner(System.`in`)
-                print("Informe o nome curso: ")
-                var nomeCurso:String = reader1.nextLine()
-                val reader2 = Scanner(System.`in`)
-                print("Informe a quantidade de aulas: ")
-                var quantAulas:Int = reader2.nextInt()
-                for(aula in 1..quantAulas) {
-                    var reader3 = Scanner(System.`in`)
-                    print("Informe a materia da aula $aula: ")
-                    var materia: String = reader3.nextLine()
-                    val reader4 = Scanner(System.`in`)
-                    print("Informe o horario de inicio da aula $aula: ")
-                    var horainicio: String = reader4.nextLine()
-                    val reader5 = Scanner(System.`in`)
-                    print("Informe o horario de fim da aula $aula: ")
-                    var horafim: String = reader5.nextLine()
-                    listaAula.add(Aula(materia, horainicio, horafim))
-                }
-                var i = 0
-                while (i < listaProfessor.size) {
-                    println("$i. ${listaProfessor[i].nome} ${listaProfessor[i].sobrenome}")
-                    ++i
-                }
-                val reader6= Scanner(System.`in`)
-                print("Informe o index do professor: ")
-                var index:Int = reader6.nextInt()
-                listaCurso.add(Curso(nomeCurso, listaAlunos, listaAula, listaProfessor[index]))
-            }
-            4 -> {
-                val reader1= Scanner(System.`in`)
-                print("Informe o nome da turma: ")
-                var nometurma:String = reader1.nextLine()
-                var i = 0
-                while (i < listaCurso.size) {
-                    println("$i. ${listaCurso[i].nome}")
-                    ++i
-                }
-                val reader2= Scanner(System.`in`)
-                print("Informe o index do curso: ")
-                var index:Int = reader2.nextInt()
-                listaTurma.add(Turma(nometurma,listaCurso[index]))
-            }
-            5 -> {
-                for (aluno in listaAlunos) {
-                    println("Todos os alunos")
-                    println("${aluno.nome} ${aluno.sobrenome}")
-                }
-                for (professor in listaProfessor) {
-                    println("Todos os professores")
-                    println("${professor.nome} ${professor.sobrenome}")
-                }
-                for (curso in listaCurso) {
-                    println("Todos os Cursos")
-                    println("${curso.nome}")
-                }
-                for (aula in listaAula) {
-                    println("Todas as Aulas")
-                    println("Materia: ${aula.materia} Inicio: ${aula.horarioInicio} Fim: ${aula.horarioFim}")
-                }
-                for (turma in listaTurma) {
-                    println("Todas as Turmas")
-                    println("Turma: ${turma.nome} Curso: ${turma.curso.nome}")
-                }
-
-            }
-            else -> println("Informe um numero de 1 a 6")
+        } catch (e: InputMismatchException) {
+            System.out.println("\nUse apenas números inteiros.\n")
+            reader.nextLine()
         }
+
     }
 }
